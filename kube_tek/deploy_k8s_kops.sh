@@ -9,6 +9,7 @@ if [[ -z "$AWSCMD" ]]; then
   echo "Cannot find aws cli. Installing the latest version using pip"
   `python3 -m pip install awscli`
 fi
+
 KUBECTL=`which kubectl`
 if [[ -z "$KUBECTL" ]]; then
   echo "Cannot find kubectl. Installing the latest version using brew"
@@ -26,6 +27,8 @@ if [[ -z "$KOPSCMD" ]]; then
 fi
 echo "Prerequisites check is done. Proceed to create cluster"
 declare -a POLICYNAMES
+export REGION=ap-south-1
+export ZONE=ap-south-1a
 POLICYNAMES=("AmazonEC2FullAccess" "AmazonRoute53FullAccess" "AmazonS3FullAccess" "IAMFullAccess" "AmazonVPCFullAccess")
 # create IAM user and group
 aws iam list-groups | grep kops
@@ -54,12 +57,18 @@ fi
 echo "waiting for 30 seconds for user creation"
 sleep 30s
 # create bucket for k8s cluster to store the state of cluster
-aws s3 ls | grep kops-aws-state-store
+export KOPS_BUCKET_NAME=kops-aws-state-store
+aws s3 ls | grep $KOPS_BUCKET_NAME
 if [[ $? -eq 0 ]]; then
   echo "bucket already exists"
 else
   echo "bucket not exists. creating the new one"
-  aws s3api create-bucket --bucket kops-aws-state-store --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1
-  aws s3api put-bucket-versioning --bucket kops-aws-state-store --versioning-configuration Status=Enabled
-  aws s3api put-bucket-encryption --bucket kops-aws-state-store --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}'
+  aws s3api create-bucket --bucket $KOPS_BUCKET_NAME --region $REGION --create-bucket-configuration LocationConstraint=$REGION
+  aws s3api put-bucket-versioning --bucket $KOPS_BUCKET_NAME --versioning-configuration Status=Enabled
+  aws s3api put-bucket-encryption --bucket $KOPS_BUCKET_NAME --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}'
 fi
+
+echo "creating cluster using kops"
+export NAME=kopscluster.k8s.local
+export KOPS_STATE_STORE=s3://$KOPS_BUCKET_NAME
+kops create cluster --zones $ZONE --master-count 1 --node-count 2 --name $NAME --yes
