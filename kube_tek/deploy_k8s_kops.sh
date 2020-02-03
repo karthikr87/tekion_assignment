@@ -7,23 +7,27 @@ echo "Checking Prerequisites on mac... "
 AWSCMD=`which aws`
 if [[ -z "$AWSCMD" ]]; then
   echo "Cannot find aws cli. Installing the latest version using pip"
-  `python3 -m pip install awscli`
+  #`python3 -m pip install awscli`
+  exit 1
 fi
 
 KUBECTL=`which kubectl`
 if [[ -z "$KUBECTL" ]]; then
   echo "Cannot find kubectl. Installing the latest version using brew"
-  `brew install kubectl`
+  #`brew install kubectl`
+  exit 1
 fi
 JQCMD=`which jq`
 if [[ -z "$JQCMD" ]]; then
   echo "Cannot find jq. Installing the latest version using brew"
-  `brew install jq`
+  #`brew install jq`
+  exit 1
 fi
 KOPSCMD=`which kops`
 if [[ -z "$KOPSCMD" ]]; then
   echo "Cannot find kops. Installing the latest version using brew"
-  `brew install kops`
+  #`brew install kops`
+  exit 1
 fi
 echo "Prerequisites check is done. Proceed to create cluster"
 declare -a POLICYNAMES
