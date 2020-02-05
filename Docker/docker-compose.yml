@@ -1,0 +1,22 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    build: .
+    links:
+      - postgres
+    environment:
+      DATABASE_TYPE: postgresql
+      VCAP_SERVICES: '{ "postgresql": [ {"credentials": { "dbname": "postgres", "end_points": [ { "host": "postgres", "network_id": "SF", "port": "5432" } ], "hostname": "postgres", "password": "postgres", "port": "5432", "ports": { "5432/tcp": "5432" }, "uri": "postgres://postgres:postgres@postgres:5432/postgres", "username": "postgres" }, "instance_name": "postgre", "label": "postgresql", "name": "postgre", "plan": "v9.4-dev",  "tags": [ "postgresql", "relational" ] } ] } }'
+  postgres:
+    image: postgres:9.5-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+  app-web:
+    build: ./web
+    ports:
+      - "5000:5000"
+    depends_on:
+      - app
+    environment:
+      destinations: '[ {"name":"securedest", "url":"http://app:8080/espm-cloud-web-cf/", "forwardAuthToken": true }, {"name":"dest", "url":"http://app:8080/espm-cloud-web-cf/"} ]'

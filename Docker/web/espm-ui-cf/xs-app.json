@@ -1,0 +1,43 @@
+{
+	"welcomeFile": "webshop/index.html",
+	"authenticationMethod": "none",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [
+	{
+		"source": "/espm-cloud-web-neo/espm.svc/secure/(.*)$",
+		"target": "/espm-cloud-web/espm.svc/secure/$1",
+		"destination": "securedest"
+	},
+	{
+		"source": "/espm-cloud-web-neo/espm.svc/(.*)$",
+		"target": "/espm-cloud-web/espm.svc/$1",
+		"destination": "dest"
+	},
+	
+	{
+		"source": "/espm-cloud-web-neo/images/(.*)$",
+		"target": "/images/$1",		
+		"destination": "dest"
+	},
+	{
+      "source": "^/webshop/(.*)",
+      "localDir": "resources",
+      "replace": {
+        "pathSuffixes": [
+          "index.html"
+        ]
+      }
+    },
+    {
+      "source": "^/retailer/(.*)",
+      "localDir": "resources",
+      "replace": {
+        "pathSuffixes": [
+          "index.html"
+        ]
+      }
+    }
+	]
+}
