@@ -7,6 +7,12 @@ resource "aws_security_group" "espm_sg_web_lb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  egress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   depends_on = [aws_internet_gateway.espm_IG]
 
 }

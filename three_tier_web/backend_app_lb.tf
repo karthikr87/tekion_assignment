@@ -7,6 +7,12 @@ resource "aws_security_group" "espm_sg_backend_lb" {
     protocol    = "tcp"
     security_groups = [aws_security_group.espm_sg_web_lb.id]
   }
+  egress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
 }
 resource "aws_lb" "espm_app_backend_lb" {

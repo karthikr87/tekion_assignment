@@ -1,5 +1,5 @@
 resource "aws_security_group" "espm_fronted_asg_config_sg" {
-  name = "espm_asg_config_sg"
+  name = "espm_fronted_asg_config_sg"
   vpc_id = aws_vpc.espm_vpc.id
   ingress {
     from_port   = 80
@@ -11,31 +11,24 @@ resource "aws_security_group" "espm_fronted_asg_config_sg" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    security_groups = [aws_security_group.bastion-sg.id]
   }
-}
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"]
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = -1
+    cidr_blocks = ["0.0.0.0/0"]
   }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_launch_configuration" "espm_web_config" {
-  name          = "web_config"
+  name_prefix = "web_config"
   image_id      =  "ami-0620d12a9cf777c87"
   instance_type = "t2.micro"
   user_data = file("install_docker.sh")
+  key_name = aws_key_pair.bastion_key.key_name
   security_groups = [aws_security_group.espm_fronted_asg_config_sg.id]
+
 }
 
 resource "aws_autoscaling_group" "espm_web_asg" {

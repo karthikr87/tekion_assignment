@@ -11,7 +11,13 @@ resource "aws_security_group" "espm_backend_asg_config_sg" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    security_groups = [aws_security_group.bastion-sg.id]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = -1
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 # data "aws_ami" "ubuntu" {
@@ -31,10 +37,11 @@ resource "aws_security_group" "espm_backend_asg_config_sg" {
 # }
 
 resource "aws_launch_configuration" "espm_backend_config" {
-  name          = "backend_config"
+  name_prefix          = "backend_config"
   image_id      =  "ami-0620d12a9cf777c87"
   instance_type = "t2.micro"
   user_data = file("install_docker.sh")
+  key_name = aws_key_pair.bastion_key.key_name
   security_groups = [aws_security_group.espm_backend_asg_config_sg.id]
 }
 
