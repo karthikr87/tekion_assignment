@@ -1,14 +1,18 @@
 version: '3'
 services:
   server:
-    image: karops/spring-music:spring-postgres
+    image: 127.0.0.1:5000/spring-app
+    build: .
     ports:
-      - 8080:8080
+      - 80:8080
     links:
       - postgres
     depends_on:
       - postgres
-        #environment could be usefull too
+    deploy:
+      mode: replicated
+      replicas: 3
+      labels: [APP=SPRING]
   postgres:
     image: postgres
     environment:
@@ -17,3 +21,6 @@ services:
       - "POSTGRES_DB=music"
     ports:
       - 5432:5432
+    deploy:
+      placement:
+        constraints: [node.role == manager]
