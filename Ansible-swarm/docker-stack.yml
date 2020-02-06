@@ -1,0 +1,9 @@
+---
+  - name: Install docker registry
+    hosts: masters
+    gather_facts: False
+    remote_user: ubuntu
+    tasks:
+      - name: exec script
+        script:
+          cmd: deploy-java-app.sh

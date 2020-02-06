@@ -4,6 +4,13 @@
     gather_facts: False
     remote_user: ubuntu
     tasks:
+      - name: sync files
+        synchronize:
+                src: spring-app/
+                dest: ~/spring-app
+                recursive: True
+                delete: False
+
       - name: Swarm Init
         command: docker swarm init --advertise-addr {{ inventory_hostname }}
         become: true
