@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "espm_backend_asg" {
   name = "${aws_launch_configuration.espm_backend_config.name}-asg"
   min_size             = 2
   desired_capacity     = 2
-  max_size             = 4
+  max_size             = 5
   health_check_type    = "EC2"
   launch_configuration = aws_launch_configuration.espm_backend_config.name
   vpc_zone_identifier  = aws_subnet.espm_pri_subnet.*.id

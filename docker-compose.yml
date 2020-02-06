@@ -1,0 +1,19 @@
+version: '3'
+services:
+  server:
+    image: karops/spring-music:spring-postgres
+    ports:
+      - 8080:8080
+    links:
+      - postgres
+    depends_on:
+      - postgres
+        #environment could be usefull too
+  postgres:
+    image: postgres
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_DB=music"
+    ports:
+      - 5432:5432
