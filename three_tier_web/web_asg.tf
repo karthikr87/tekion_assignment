@@ -8,10 +8,52 @@ resource "aws_security_group" "espm_fronted_asg_config_sg" {
     security_groups = [aws_security_group.espm_sg_web_lb.id]
   }
   ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    security_groups = [aws_security_group.espm_sg_web_lb.id]
+  }
+  ingress {
     from_port = 22
     to_port = 22
     protocol = "tcp"
     security_groups = [aws_security_group.bastion-sg.id]
+  }
+  ingress {
+    from_port = 5432
+    to_port = 5432
+    protocol = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 2377
+    to_port = 2377
+    protocol = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 7946
+    to_port = 7946
+    protocol = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 7946
+    to_port = 7946
+    protocol = "UDP"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 4789
+    to_port = 4789
+    protocol = "UDP"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 0
+    to_port = 0
+    protocol = 50
+    cidr_blocks = ["10.0.0.0/16"]
   }
   egress {
     from_port = 0
@@ -36,9 +78,9 @@ resource "aws_autoscaling_group" "espm_web_asg" {
   # This will reset the desired capacity if it was changed due to
   # autoscaling events.
   name = "${aws_launch_configuration.espm_web_config.name}-asg"
-  min_size             = 5
-  desired_capacity     = 5
-  max_size             = 7
+  min_size             = 3
+  desired_capacity     = 3
+  max_size             = 5
   health_check_type    = "EC2"
   launch_configuration = aws_launch_configuration.espm_web_config.name
   vpc_zone_identifier  = aws_subnet.espm_pri_subnet.*.id
