@@ -11,8 +11,8 @@ output "bastion_public_ip" {
   value = aws_instance.bastion.public_ip
 }
 resource "aws_key_pair" "bastion_key" {
-  key_name   = "karthik_ssh_key"
-  public_key = file("id_rsa.pub")
+  key_name   = "tekk_ssh_key"
+  public_key = file("~/.ssh/ssh_tekk.pub")
 }
 resource "aws_security_group" "bastion-sg" {
   name   = "bastion-security-group"
