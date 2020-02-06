@@ -36,9 +36,9 @@ resource "aws_autoscaling_group" "espm_web_asg" {
   # This will reset the desired capacity if it was changed due to
   # autoscaling events.
   name = "${aws_launch_configuration.espm_web_config.name}-asg"
-  min_size             = 2
-  desired_capacity     = 2
-  max_size             = 5
+  min_size             = 5
+  desired_capacity     = 5
+  max_size             = 7
   health_check_type    = "EC2"
   launch_configuration = aws_launch_configuration.espm_web_config.name
   vpc_zone_identifier  = aws_subnet.espm_pri_subnet.*.id
