@@ -4,7 +4,7 @@ resource "aws_instance" "bastion" {
   associate_public_ip_address = true
   subnet_id = aws_subnet.espm_pub_subnet.0.id
   key_name = aws_key_pair.bastion_key.key_name
-  user_data = file("install_docker.sh")
+  user_data = file("install_ansible.sh")
   security_groups = [aws_security_group.bastion-sg.id]
 }
 output "bastion_public_ip" {
