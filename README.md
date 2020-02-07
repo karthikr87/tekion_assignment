@@ -1,6 +1,6 @@
 # tekion_assignment
 This repo contains script to setup highly available docker env on AWS.
-
+# First assignment
 # Setup aws env
 1. git clone this repo
 2. cd three_tier_web/
@@ -22,3 +22,9 @@ This will output public ip of jumpbox (to ssh) and dns name of elb (to access th
 7. Final step to deploy app - ansible-playbook docker-stack.yml
    This will deploy java app with postgres db. Web server will be running with 3 replicas where db with 1 replica.
 8. use the dns name to access the app. 
+
+# Second assignment
+1. cd kube_tek
+2. ./deploy_k8s_kops.sh to setup cluster using kops on aws env. This will deploy the cluster in ap-south-1 region. This will take 10 to 15 minutes to spin up the cluster. 
+3. ./k8s_dashboard.sh to deploy dashboard for the cluster. This will create admin user and prints token to log in to dashabord. 
+4. This folder has yml file to deploy nginx app and create load balancer type service.
