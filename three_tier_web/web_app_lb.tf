@@ -26,6 +26,9 @@ resource "aws_lb" "espm_web_lb" {
     Name = "EXTERNAL-ALB"
   }
 }
+output "espm_web_lb_dns_name" {
+  value = aws_lb.espm_web_lb.dns_name
+}
 resource "aws_alb_target_group" "espm_web_alb_tg" {
   name     = "espm-web-alb-tg"
   port     = 80

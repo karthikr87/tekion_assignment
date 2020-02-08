@@ -20,6 +20,18 @@ resource "aws_security_group" "espm_fronted_asg_config_sg" {
     security_groups = [aws_security_group.bastion-sg.id]
   }
   ingress {
+    from_port = 9100
+    to_port = 9100
+    protocol = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+  ingress {
+    from_port = 9090
+    to_port = 9090
+    protocol = "tcp"
+    security_groups = [aws_security_group.bastion-sg.id]
+  }
+  ingress {
     from_port = 5432
     to_port = 5432
     protocol = "tcp"

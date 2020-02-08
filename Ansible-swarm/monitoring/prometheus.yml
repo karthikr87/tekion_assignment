@@ -17,14 +17,21 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-      
-  - job_name: 'node-exporter'
+  - job_name: cadvisor
+    scrape_interval: 5s
     static_configs:
-      # the targets listed here must match the service names from the docker-compose file
-      - targets: ['manager-001:9100','worker-001:9100']
+    - targets:
+      - cadvisor:8080
 
-      
-  - job_name: 'cadvisor'
+  - job_name: 'prometheus'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
     static_configs:
-      # the targets listed here must match the service names from the docker-compose file
-      - targets: ['docker-manager-001:8080','docker-worker-001:8080']
+    - targets:
+      - localhost:9090
+
+  - job_name: prometheus-exporter
+    scrape_interval: 10s
+    static_configs:
+    - targets:
+      - exporter:9100
