@@ -53,6 +53,9 @@ espm_web_lb_dns_name = "####################.elb.amazonaws.com (load_balancer_na
     2. password - admin
     3. Go to settings add datasource as prometheus. 
        In the url section add http://master-node-ip:9090 ( From the hosts file get the master ip )
+    4. Click save&test.
+    5. To create a dashboard go to import, in the Grafana.com Dashboard section enter 193 and choose prometheus as datasource.
+    6. It will populate all container metrics. 
 ### End of first assignment
 
 ## Second Assignment
