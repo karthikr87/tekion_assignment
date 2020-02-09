@@ -1,0 +1,16 @@
+---
+  - name: Setup monitoring for containers
+    hosts: masters
+    gather_facts: False
+    remote_user: ubuntu
+    tasks:
+      - name: sync files
+        synchronize:
+                src: monitoring/
+                dest: ~/monitoring
+                recursive: True
+                delete: False
+
+      - name: deploy monitoring
+        script:
+          cmd: deploy-monitor.sh
