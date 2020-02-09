@@ -31,7 +31,6 @@ espm_web_lb_dns_name = "####################.elb.amazonaws.com (load_balancer_na
    3. we need choose one ip address as masters and other two as workers. So edit the hosts file as shown below.
       [masters]
       10.0.3.167
-
       [workers]
       10.0.4.48
       10.0.3.17
