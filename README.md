@@ -54,3 +54,12 @@ espm_web_lb_dns_name = "####################.elb.amazonaws.com (load_balancer_na
     3. Go to settings add datasource as prometheus. 
        In the url section add http://master-node-ip:9090 ( From the hosts file get the master ip )
 ### End of first assignment
+
+## Second Assignment
+### prerequisite ( aws cli, kops, kubectl, jq )
+### Deploy kubernetes using kops
+1. cd ../kube_tek/
+2. ./deploy_k8s_kops.sh  ( deploys cluster in ap-souht-1 environment )
+3. ./k8s_dashboard.sh ( deploys dashboard, creates admin user, and prints token to access the dashboard using admin user)
+4. To access the dashboard - http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+5. Enter the token and the welcome page will be loaded.
