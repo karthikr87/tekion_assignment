@@ -53,5 +53,5 @@ espm_web_lb_dns_name = "####################.elb.amazonaws.com (load_balancer_na
     1. user name - admin
     2. password - admin
     3. Go to settings add datasource as prometheus. 
-       In the url section add http://<master-node-ip>:9090 ( From the hosts file get the master ip )
+       In the url section add http://master-node-ip:9090 ( From the hosts file get the master ip )
 ### End of first assignment
