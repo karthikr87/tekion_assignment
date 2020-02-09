@@ -13,4 +13,4 @@
 
       - name: deploy monitoring
         script:
-          cmd: deploy-monitor.sh
+          cmd: deploy-monitoring.sh

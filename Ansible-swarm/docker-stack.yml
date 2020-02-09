@@ -1,5 +1,5 @@
 ---
-  - name: Install docker registry
+  - name: Install docker registry and deploy java app
     hosts: masters
     gather_facts: False
     remote_user: ubuntu
